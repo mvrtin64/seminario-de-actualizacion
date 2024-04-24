@@ -1,7 +1,7 @@
 const express = require('express');
 const router = express.Router();
 
-// Controladores de contactos
+// controladores de contactos
 const {
   agregarContacto,
   obtenerContactos,
@@ -10,7 +10,7 @@ const {
   eliminarContacto
 } = require('../controllers/contactos');
 
-// Rutas de contactos
+// rutas de contactos
 router.post('/', agregarContacto);
 router.get('/', obtenerContactos);
 router.get('/:id', obtenerContactoPorId);

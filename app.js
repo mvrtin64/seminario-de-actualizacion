@@ -5,16 +5,14 @@ const path = require('path');
 const db = require('./db');
 
 const app = express();
-
-app.use(cors());  
-
 const contactosRouter = require('./routes/contactos');
 const telefonosRouter = require('./routes/telefonos');
 
-app.use('/api/contactos', contactosRouter);
-app.use('/api/telefonos', telefonosRouter);
 app.use(express.json());
 app.use(express.static(path.join(__dirname, 'public')));
+app.use(cors());  
+app.use('/api/contactos', contactosRouter);
+app.use('/api/telefonos', telefonosRouter);
 
 app.get('/', (req, res) => {
   res.sendFile(path.join(__dirname, 'public', 'index.html'));

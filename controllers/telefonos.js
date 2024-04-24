@@ -1,6 +1,5 @@
 const db = require('../db');
 
-// Función para agregar un nuevo teléfono
 const agregarTelefono = (req, res) => {
   const { telefono, id, contacto_id } = req.body;
   const sql = 'INSERT INTO Telefonos (telefono, id, contacto_id) VALUES (?, ?, ?)';
@@ -12,7 +11,6 @@ const agregarTelefono = (req, res) => {
   });
 };
 
-// Función para obtener todos los teléfonos
 const obtenerTelefonos = (req, res) => {
   const sql = 'SELECT * FROM Telefonos';
   db.query(sql, (err, result) => {
@@ -23,7 +21,6 @@ const obtenerTelefonos = (req, res) => {
   });
 };
 
-// Función para obtener un teléfono por su id
 const obtenerTelefonoPorId = (req, res) => {
   const { id } = req.params;
   const sql = 'SELECT * FROM Telefonos WHERE id = ?';
@@ -38,7 +35,6 @@ const obtenerTelefonoPorId = (req, res) => {
   });
 };
 
-// Función para actualizar un teléfono por su id
 const actualizarTelefono = (req, res) => {
   const { id } = req.params;
   const { numero, tipo, contacto_id } = req.body;
@@ -54,7 +50,7 @@ const actualizarTelefono = (req, res) => {
   });
 };
 
-// Función para eliminar un teléfono por su id
+// eliminar un teléfono por id
 const eliminarTelefono = (req, res) => {
   const { id } = req.params;
   const sql = 'DELETE FROM Telefonos WHERE id = ?';

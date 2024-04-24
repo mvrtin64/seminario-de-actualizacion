@@ -1,7 +1,7 @@
 const express = require('express');
 const router = express.Router();
 
-// Controladores de teléfonos
+// controladores de teléfonos
 const {
   agregarTelefono,
   obtenerTelefonos,
@@ -10,7 +10,7 @@ const {
   eliminarTelefono
 } = require('../controllers/telefonos');
 
-// Rutas de teléfonos
+// rutas de teléfonos
 router.post('/', agregarTelefono);
 router.get('/', obtenerTelefonos);
 router.get('/:id', obtenerTelefonoPorId);

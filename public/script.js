@@ -47,7 +47,7 @@ const agregarContacto = () => {
       agregarContacto();
     }); */
     
-    document.getElementById('form-eliminar').addEventListener('click', event => {
+    document.getElementById('form-eliminar').addEventListener('submit', event => {
       const id = event.target.dataset.id; // Obtener el ID del contacto a eliminar
   
       if (confirm('¿Estás seguro de que quieres eliminar este contacto?')) {
