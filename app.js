@@ -1,20 +1,23 @@
 const express = require('express');
 const mysql = require('mysql');
+const cors = require('cors');
+const path = require('path');
+const db = require('./db');
 
 const app = express();
 
-const db = mysql.createConnection({
-  host: 'localhost',
-  user: 'root',
-  password: 'mtnmind',
-  database: 'mydb'
-});
+app.use(cors());  
 
-db.connect((err) => {
-  if (err) {
-    throw err;
-  }
-  console.log('Conectado a la base de datos MySQL');
+const contactosRouter = require('./routes/contactos');
+const telefonosRouter = require('./routes/telefonos');
+
+app.use('/api/contactos', contactosRouter);
+app.use('/api/telefonos', telefonosRouter);
+app.use(express.json());
+app.use(express.static(path.join(__dirname, 'public')));
+
+app.get('/', (req, res) => {
+  res.sendFile(path.join(__dirname, 'public', 'index.html'));
 });
 
 // endpoints
