@@ -29,7 +29,9 @@
       <label for="apellido">Apellido:</label>
       <input type="text" id="apellido" name="apellido" required>
       <label for="direccion">Dirección:</label>
-      <input type="text" id="direccion" name="direccion">
+      <input type="text" id="direccion" name="direccion" required>
+      <label for="telefono">Teléfono:</label><br> 
+      <input type="text" id="telefono" name="telefono" required><br> 
       <button type="submit">GUARDAR</button>
     </form>
     
@@ -44,16 +46,29 @@
       <input type="text" id="nuevoApellido" name="nuevoApellido">
       <label for="nuevaDireccion">Nueva dirección:</label>
       <input type="text" id="nuevaDireccion" name="nuevaDireccion">
+      <label for="nuevoTelefono">Nuevo Teléfono:</label>
+      <input type="text" id="nuevoTelefono" name="nuevoTelefono" required>
       <button type="submit">ACTUALIZAR</button>
     </form>
     
     <!-- eliminar contacto -->
     <form id="form-eliminar">
       <h2>ELIMINAR CONTACTO</h2>
-      <label for="idEliminar">ID del Contacto:</label>
-      <input type="number" id="idEliminar" name="idEliminar" required>
+      <label for="id">ID del Contacto:</label>
+      <input type="number" id="idEliminar" name="idContacto" required>
       <button type="submit">ELIMINAR</button>
     </form>
+    
+    <!-- buscar contacto por id -->
+    <h2>ACTUALIZAR CONTACTO</h2>
+    <form id="form-buscar">
+      <label for="idBuscar">ID del contacto a buscar:</label>
+      <input type="text" id="idBuscar" name="idBuscar" required>
+      <button type="submit">Buscar</button>
+    </form>
+    
+    <div id="resultado"></div>
+    
   </div>
   <script src="script.js"></script>
 </body>

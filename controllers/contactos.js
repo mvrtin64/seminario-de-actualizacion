@@ -1,15 +1,21 @@
 const db = require('../db');
 
 const agregarContacto = (req, res) => {
-  const {nombre,apellido,direccion} = req.body;
-  const sql = 'INSERT INTO Contactos (nombre, apellido, direccion) VALUES (?, ?, ?)';
-  db.query(sql, [nombre, apellido, direccion], (err, result) => {
+  const { nombre, apellido, direccion, telefono } = req.body;
+  const sqlContacto = 'INSERT INTO Contactos (nombre, apellido, direccion) VALUES (?, ?, ?)';
+  db.query(sqlContacto, [nombre, apellido, direccion], (err, result) => {
     if (err) {
       return res.status(500).json({ message: 'Error al agregar contacto', error: err });
     }
-    res.status(201).json({ message: 'Contacto creado correctamente', id: result.insertId });
+    const contactoId = result.insertId;
+    const sqlTelefono = 'INSERT INTO Telefonos (telefono, contacto_id) VALUES (?, ?)';
+    db.query(sqlTelefono, [telefono, contactoId], (err, result) => {
+      if (err) {
+        return res.status(500).json({ message: 'Error al agregar teléfono', error: err });
+      }
+      res.status(201).json({ message: 'Contacto creado correctamente', id: contactoId });
+    });
   });
-  
 };
 
 const obtenerContactos = (req, res) => {
@@ -39,17 +45,30 @@ const obtenerContactoPorId = (req, res) => {
 const actualizarContacto = (req, res) => {
   const { id } = req.params;
   const { nombre, apellido, direccion } = req.body;
-  const sql = 'UPDATE Contactos SET nombre = ?, apellido = ?, direccion = ? WHERE id = ?';
-  db.query(sql, [nombre, apellido, direccion, id], (err, result) => {
-    if (err) {
-      return res.status(500).json({ message: 'Error al actualizar contacto', error: err });
+  const nuevoTelefono = req.body.nuevoTelefono;
+
+  // actualizar contacto
+  const sqlContacto = 'UPDATE Contactos SET nombre = ?, apellido = ?, direccion = ? WHERE id = ?';
+  db.query(sqlContacto, [nombre, apellido, direccion, id], (errContacto, resultContacto) => {
+    if (errContacto) {
+      return res.status(500).json({ message: 'Error al actualizar contacto', error: errContacto });
     }
-    if (result.affectedRows === 0) {
-      return res.status(404).json({ message: 'Contacto no encontrado' });
-    }
-    res.json({ message: 'Contacto actualizado correctamente' });
+
+    const sqlTelefono = 'UPDATE Telefonos SET telefono = ? WHERE contacto_id = ?';
+    db.query(sqlTelefono, [nuevoTelefono, id], (errTelefono, resultTelefono) => {
+      if (errTelefono) {
+        return res.status(500).json({ message: 'Error al actualizar teléfono', error: errTelefono });
+      }
+
+      if (resultContacto.affectedRows === 0) {
+        return res.status(404).json({ message: 'Contacto no encontrado' });
+      }
+
+      res.json({ message: 'Contacto y teléfono actualizados correctamente' });
+    });
   });
 };
+
 
 const eliminarContacto = (req, res) => {
   const { id } = req.params;

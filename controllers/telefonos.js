@@ -23,7 +23,7 @@ const obtenerTelefonos = (req, res) => {
 
 const obtenerTelefonoPorId = (req, res) => {
   const { id } = req.params;
-  const sql = 'SELECT * FROM Telefonos WHERE id = ?';
+  const sql = 'SELECT * FROM Telefonos WHERE contacto_id = ?';
   db.query(sql, [id], (err, result) => {
     if (err) {
       return res.status(500).json({ message: 'Error al obtener teléfono por id', error: err });
