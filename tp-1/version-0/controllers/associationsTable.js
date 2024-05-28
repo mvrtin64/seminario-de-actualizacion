@@ -17,3 +17,32 @@ exports.getAssociations = (req, res) => {
         res.json(results);
     });
 };
+
+
+exports.updateAssociation = (req, res) => {
+    const { userId, groupId } = req.params;
+    const { userName, userEmail, groupName } = req.body;
+
+    // Find new group id based on groupName
+    db.query('SELECT id FROM `group` WHERE name = ?', [groupName], (err, groupResults) => {
+        if (err) return res.status(500).send(err);
+
+        if (groupResults.length === 0) {
+            return res.status(404).send('Group not found');
+        }
+
+        const newGroupId = groupResults[0].id;
+
+        // Update user information
+        db.query('UPDATE user SET name = ?, email = ? WHERE id = ?', [userName, userEmail, userId], (err, userResults) => {
+            if (err) return res.status(500).send(err);
+
+            // Update association
+            db.query('UPDATE user_group SET group_id = ? WHERE user_id = ? AND group_id = ?', [newGroupId, userId, groupId], (err, assocResults) => {
+                if (err) return res.status(500).send(err);
+
+                res.send('Association updated successfully');
+            });
+        });
+    });
+};

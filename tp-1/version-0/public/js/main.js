@@ -145,10 +145,47 @@ document.addEventListener('DOMContentLoaded', async () => {
             alert('Error adding action');
         }
     });
+
+    // edit form submission event 
+    document.getElementById('editForm').addEventListener('submit', async function(event) {
+        event.preventDefault();
+    
+        const userId = this.getAttribute('data-user-id');
+        const groupId = this.getAttribute('data-group-id');
+    
+        const updatedData = {
+            userName: document.getElementById('editUserName').value,
+            userEmail: document.getElementById('editUserEmail').value,
+            groupName: document.getElementById('editGroupName').value,
+        };
+    
+        try {
+            const response = await fetch(`/associations/${userId}/${groupId}`, {
+                method: 'PUT',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(updatedData)
+            });
+    
+            if (response.ok) {
+                alert('Association updated successfully');
+                closeEditModal();
+                loadAssociations(); 
+            } else {
+                alert('Error updating association');
+            }
+        } catch (error) {
+            console.error('Error updating association:', error);
+            alert('Error updating association');
+        }
+    });
+    
     // load associations and fill table
     async function loadAssociations() {
         const associationsResponse = await fetch('/associations');
         const associations = await associationsResponse.json();
+
         const tableBody = document.querySelector('#associationsTable tbody');
         tableBody.innerHTML = '';
     
@@ -178,15 +215,21 @@ document.addEventListener('DOMContentLoaded', async () => {
             const editCell = document.createElement('td');
             const editButton = document.createElement('button');
             editButton.textContent = 'Edit';
-            editButton.addEventListener('click', () => editAssociation(association));
+            editButton.setAttribute('data-user-id', association.user_id);
+            editButton.setAttribute('data-user-name', association.user_name);
+            editButton.setAttribute('data-user-email', association.user_email);
+            editButton.setAttribute('data-group-id', association.group_id);
+            editButton.setAttribute('data-group-name', association.group_name);
+            editButton.addEventListener('click', openEditModal);
             editCell.appendChild(editButton);
             row.appendChild(editCell);
+            
             
             const deleteCell = document.createElement('td');
             const deleteButton = document.createElement('button');
             deleteButton.textContent = 'Delete';
-            deleteButton.dataset.userId = association.user_id;
-            deleteButton.dataset.groupId = association.group_id;
+            deleteButton.setAttribute('data-user-id', association.user_id);
+            deleteButton.setAttribute('data-group-id', association.group_id);
             deleteButton.addEventListener('click', (e) => deleteAssociation(e));
             deleteCell.appendChild(deleteButton);
             row.appendChild(deleteCell);
@@ -195,11 +238,52 @@ document.addEventListener('DOMContentLoaded', async () => {
         });
     }
     
+    function openEditModal(event) {
+        const userId = event.target.getAttribute('data-user-id');
+        const userName = event.target.getAttribute('data-user-name');
+        const userEmail = event.target.getAttribute('data-user-email');
+        const groupId = event.target.getAttribute('data-group-id');
+        const groupName = event.target.getAttribute('data-group-name');
 
-    async function editAssociation(association) {
-        alert('Edit functionality not implemented yet');
+    
+        document.getElementById('editUserName').value = userName;
+        document.getElementById('editUserEmail').value = userEmail;
+        document.getElementById('editGroupName').value = groupName;
+    
+        document.getElementById('editForm').setAttribute('data-user-id', userId);
+        document.getElementById('editForm').setAttribute('data-group-id', groupId);
+    
+        document.getElementById('editModal').style.display = 'block';
+    
+        loadGroupOptions(groupId);
     }
+    
+    function closeEditModal() {
+        document.getElementById('editModal').style.display = 'none';
+    }
+    
+    async function loadGroupOptions(selectedGroupId) {
+        try {
+            const response = await fetch('/groups');
+            const groups = await response.json();
 
+            const groupSelect = document.getElementById('editGroupName');
+            groupSelect.innerHTML = '';
+
+            groups.forEach(group => {
+                const option = document.createElement('option');
+                option.value = group.name;
+                option.textContent = group.name;
+                if (group.id == selectedGroupId) {
+                    option.selected = true;
+                }
+                groupSelect.appendChild(option);
+            });
+        } catch (error) {
+            console.error('Error loading groups:', error);
+        }
+    }
+ 
     async function deleteAssociation(event) {
         const userId = event.target.dataset.userId;
         const groupId = event.target.dataset.groupId;
@@ -217,7 +301,6 @@ document.addEventListener('DOMContentLoaded', async () => {
             if (response.ok) {
                 alert('Association deleted successfully');
     
-                // Eliminar la fila completa del HTML
                 const row = event.target.closest('tr');
                 if (row) {
                     row.remove();
