@@ -1,0 +1,5 @@
+// landing page inicio de sesión con logo genérico 
+correo - pw - botón iniciar sesión - cerrar sesión (login/logout en la api y especificar formato a trabajar (JSON / POST / IN{},OUT{})
+crear una cuenta (reutilización código de alta de usuario del ABM) ({signup})
+contraseñas seguras (longMin, mayus, alfanumérica, caract. especiales. criterio: longitud y caract. especiales - usar RegExp y luego password.match("regex")) 
+si pw incorrecta o no cumple criterios de seguridad = popup de aviso abajo o user y/o pw incorrectos.

@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="container">
+        <h2>Welcome to the Dashboard</h2>
+        <button id="logoutButton">Logout</button>
+    </div>
+    <script>
+        document.getElementById('logoutButton').addEventListener('click', function() {
+            // Redirect back to login page
+            window.location.href = '/index.html';
+        });
+    </script>
+</body>
+</html>
