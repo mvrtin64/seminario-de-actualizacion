@@ -1,0 +1,6 @@
+{
+    "sessionMechanism": "token", 
+    "sessionSecret": "hello",
+    "tokenExpiration": "1h" 
+  }
+  
