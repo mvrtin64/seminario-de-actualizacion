@@ -41,8 +41,8 @@ exports.loginUser = (req, res) => {
 
         const user = results[0];
         
-        const token = jwt.sign({ id: user.id }, process.env.MY_SECRET, { expiresIn: '1h' });
-        res.cookie('token', token, { httpOnly: true, maxAge: 60 * 60 * 1000 }); // 1 hour expiry
+        const token = jwt.sign({ id: user.id }, process.env.MY_SECRET, { expiresIn: '60s' });
+        res.cookie('token', token, { httpOnly: false, path: '/', maxAge: 60 * 1000, sameSite: 'Strict' });
 
         res.status(200).json({ message: 'Login successful' });
     });
@@ -51,4 +51,16 @@ exports.loginUser = (req, res) => {
 exports.logoutUser = (req, res) => {
     res.clearCookie('token'); 
     return res.status(200).json({ message: 'Logout successful' });
+};
+
+exports.validateToken = (req, res, next) => {
+    const token = req.cookies.token;
+    if (!token) return res.status(401).json({ message: 'No token provided' });
+
+    jwt.verify(token, process.env.MY_SECRET, (err, decoded) => {
+        if (err) return res.status(401).json({ message: 'Failed to authenticate token' });
+
+        req.userId = decoded.id;
+        next();
+    });
 };
