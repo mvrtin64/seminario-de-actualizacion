@@ -26,10 +26,9 @@ document.addEventListener('DOMContentLoaded', function() {
             return;
         }
 
-        // Calculate time remaining before token expires
+
         const timeRemaining = (decodedToken.exp - currentTime) * 1000;
 
-        // Set a timeout to automatically log out when token expires
         setTimeout(() => {
             alert('Session expired. Please log in again.');
             console.log('Automatic logout triggered.');
@@ -49,15 +48,13 @@ document.addEventListener('DOMContentLoaded', function() {
     });
 });
 
-// Helper function to get a cookie by name
 function getCookie(name) {
     const value = `; ${document.cookie}`;
     const parts = value.split(`; ${name}=`);
     if (parts.length === 2) return parts.pop().split(';').shift();
-    return null;  // Return null if cookie is not found
+    return null; 
 }
 
-// Helper function to decode JWT (JSON Web Token)
 function parseJwt(token) {
     const base64Url = token.split('.')[1];
     const base64 = base64Url.replace(/-/g, '+').replace(/_/g, '/');

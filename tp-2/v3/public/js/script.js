@@ -16,7 +16,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
         if (validatePassword(data.password)) {
             try {
-                const response = await fetch('users', { 
+                const response = await fetch('register', { 
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json'
@@ -97,14 +97,14 @@ function clearMessages() {
     loginMessageContainer.classList.remove('error', 'success');
 }
 
-/* function clearErrorMessages() {
+ function clearErrorMessages() {
     const errorElement = document.getElementById('error-message');
     if (errorElement) {
         errorElement.remove();
     }
-} */
+} 
 
-/* function showError(message) {
+function showError(message) {
     let errorElement = document.getElementById('error-message');
     if (!errorElement) {
         errorElement = document.createElement('div');
@@ -114,9 +114,9 @@ function clearMessages() {
         document.querySelector('.form-container').appendChild(errorElement);
     }
     errorElement.textContent = message;
-} */
+} 
 
-/* function showSuccess(message) {
+ function showSuccess(message) {
     let successElement = document.getElementById('success-message');
     if (!successElement) {
         successElement = document.createElement('div');
@@ -126,7 +126,7 @@ function clearMessages() {
         document.querySelector('.form-container').appendChild(successElement);
     }
     successElement.textContent = message;
-} */
+} 
 
 function showLoginPage() {
     document.getElementById('loginBox').style.display = 'block';
