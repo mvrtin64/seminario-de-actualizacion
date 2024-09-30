@@ -102,6 +102,8 @@ wss.on('connection', (ws) => {
         const data = JSON.parse(message);
         const encryptedArray = new Uint8Array(data.encrypted);
         const iv = new Uint8Array(data.iv);
+        // console.log('encrypted message', encryptedArray);
+        // console.log('iv', iv);
         const sender = data.sender;
 
         // Decrypt the received message
