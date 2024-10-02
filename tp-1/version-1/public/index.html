@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Privileges Management</title>
+    <link rel="stylesheet" href="/css/styles.css">
+</head>
+<body>
+    <h1>USERS/GROUPS MANAGEMENT</h1>
+    
+    <h2>Create Users</h2>
+    <form id="userForm">
+        <input type="text" name="username" placeholder="Username" required>
+        <input type="email" name="email" placeholder="Email" required>
+        <input type="password" name="password" placeholder="Password" required>
+        <button type="submit">Add User</button>
+    </form>
+    
+    <h2>Create Group</h2>
+    <form id="groupForm">
+        <input type="text" name="group_name" placeholder="Group Name" required>
+        <button type="submit">Add Group</button>
+    </form>
+
+    <h2>Create User/Group association</h2>
+    <form id="userGroupForm">
+        <label for="userId">User:</label>
+        <select id="userId" name="userId"></select>
+        <label for="groupId">Group:</label>
+        <select id="groupId" name="groupId"></select>
+        <button type="submit">Create Association</button>
+    </form>
+    
+    <h2>Create Actions</h2>
+    <form id="actionForm">
+        <input type="text" name="action_name" placeholder="Action Name" required>
+        <button type="submit">Add Action</button>
+    </form>
+
+    <h2>Create Action/Group association</h2>
+    <form id="groupActionForm">
+        <label for="groupIdAction">Group:</label>
+        <select id="groupIdAction" name="groupId"></select>
+        <label for="actionId">Action:</label>
+        <select id="actionId" name="actionId"></select>
+        <button type="submit">Create Association</button>
+    </form>
+
+    <h2>Associations List</h2>
+    <table id="associationsTable" border="1">
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Name</th>
+                <th>Email</th>
+                <th>Group</th>
+                <th>Action</th>
+                <th>Edit</th>
+                <th>Delete</th>
+            </tr>
+        </thead>
+        <tbody>
+        </tbody>
+    </table>
+
+    <div id="editModal" style="display:none;">
+        <form id="editForm">
+            <label for="editUserName">User Name:</label>
+            <input type="text" id="editUserName" name="userName" required>
+            
+            <label for="editUserEmail">User Email:</label>
+            <input type="email" id="editUserEmail" name="userEmail" required>
+            
+            <label for="editGroupName">Group Name:</label>
+            <select id="editGroupName" name="groupName" required></select>
+            
+            <button type="submit">Save</button>
+            <button type="button" onclick="closeEditModal()">Cancel</button>
+        </form>
+    </div>
+
+    <script src="/js/main.js"></script>
+</body>
+</html>
+
